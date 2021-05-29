@@ -1,0 +1,123 @@
+<html><head>
+        <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/webtorrent@latest/webtorrent.min.js" defer=""></script>
+        <script src="shared/config.js" defer=""></script>
+        <script src="shared/helpers.js" defer=""></script>
+        <script src="index.js" defer=""></script>
+        
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <!-- Section Bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- Section Booststrap -->
+        <link href="index.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+        <!-- section google fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Raleway&display=swap" rel="stylesheet">
+        <!-- section google fonts -->
+    </head>
+    <body>
+        <div class ="magnet_list">
+            <h1>Please pick your torrent</h1>
+                <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">URL</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody class = "test">
+                        </tbody>
+                      </table> 
+            <button type="button" onclick="addTorrent()" class="btn btn-outline-success" style = "width:50px;height:50px;border-radius: 50%;"><i class="fas fa-plus"></i></button>
+        </div>
+            <div class = "player" style = "display:none;">
+            <div id="hero">
+                    <div id="output">
+                        <div id="progressBar"></div>
+                        <div id="status">
+                            <div>
+                                <span class="show-leech">Downloading </span>
+                                <span class="show-seed">Seeding </span>
+                                <code>
+                                    <!-- Informative link to the torrent file -->
+                                    <a id="torrentLink" href=https://webtorrent.io/torrents/sintel.torrent>sintel.torrent</a>
+                                </code>
+                                <span class="show-leech"> from </span>
+                                <span class="show-seed"> to </span>
+                                <code id="numPeers">0 peers</code>.
+                            </div>
+                            <div>
+                                <code id="downloaded"></code>
+                                of <code id="total"></code>
+                                — <span id="remaining"></span><br />
+                                &#x2198;<code id="downloadSpeed">0 b/s</code>
+                                / &#x2197;<code id="uploadSpeed">0 b/s</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <div class = "toggle_modes_container">
+            <button class = "btn btn-light toggle_modes_btn" data-toggle = "night"><i class="fas fa-sun"></i></button>
+        </div>
+        <div class="video_container">
+            <h3 class = "fluid_title">You are currently watching: <span class="video_title"> Sintel.mp4</span></h3>
+            <div class="row">
+                <div class="col-8 align-self-center">
+                        <div class="video_stream_player" id="video">
+                            <!-- <video controls=""  style="width:800px;" src="blob:http://localhost:8081/f94598c1-5f1b-4632-88a8-c1611c8f0784"></video> -->
+                        </div>
+                </div>
+                <div class="col-4">
+                    <h3>Torrent's Data</h3>
+                    <div class="video_data" style = "margin:auto;">
+                        <p>Sintel.de.srt</p>
+                        <p>Sintel.en.srt</p>
+                        <p>Sintel.es.srt</p>
+                        <p>Sintel.fr.srt</p>
+                        <p>Sintel.it.srt</p>
+                        <p>Sintel.mp4</p>
+                        <p>Sintel.nl.srt</p>
+                        <p>Sintel.pl.srt</p>
+                        <p>Sintel.pt.srt</p>
+                        <p>Sintel.ru.srt</p>
+                        <p>poster.jpg</p>
+                    </div>
+                </div>
+            </div>
+        </div>     
+        
+    </div>     
+    </body>
+    <script>
+        $(".toggle_modes_btn").click(function (){
+            
+            if($(".toggle_modes_btn").attr('data-toggle') == 'night'){
+                
+                $(".toggle_modes_btn").attr('data-toggle','day');
+                $('body').css('background-color','#dfdfdf').css('color','#000000');
+                $('.video_title').css('color','#000000');
+                $('.video_data').css('color','#000000');
+                $('.fas').removeClass('fa-sun');
+                $('.fas').addClass('fa-moon');
+                $('.btn').removeClass('btn-light').addClass('btn-dark');
+            }else{
+                
+                $(".toggle_modes_btn").attr('data-toggle','night');
+                $('body').css('background-color','#202020').css('color','#ffffff');
+                $('.video_title').css('color','#ffffff');
+                $('.video_data').css('color','#ffffff');
+                $('.fas').removeClass('fa-moon');
+                $('.fas').addClass('fa-sun');
+                $('.btn').removeClass('btn-dark').addClass('btn-light');
+            }
+        });
+
+
+    </script>
+</html>

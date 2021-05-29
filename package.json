@@ -1,0 +1,14 @@
+{
+	"name": "webrtc-screens",
+	"version": "0.0.1",
+	"description": "Express screen sharing using socket.io for WebRTC signalling",
+	"author": "Panagiotis Lampropoulos <pgl@otenet.gr> (https://github.com/plambros)",
+	"scripts": {
+		"start": "node server/index.js"
+	},
+	"dependencies": {
+		"express": "",
+		"socket.io": ""
+	},
+	"private": true
+}
